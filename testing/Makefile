@@ -1,7 +1,6 @@
 cc=clang
 cc_flags=-std=c99 -Wall
 cc_defs=-DFARL_LOG_PATHS -DFARL_LOG_RESOLVING -DFARL_LOG_BUILDING -DFARL_LOG_STDOUT
-cc_defs=-DFARL_LOG_RESOLVING -DFARL_LOG_STDOUT
 cc_dep_btree=../btree/btree.h ../btree/btree.c
 cc_src_btree=../btree/btree.c
 cc_dep_log=../farl/log.h ../farl/..log.c
