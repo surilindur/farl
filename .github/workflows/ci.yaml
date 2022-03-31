@@ -12,18 +12,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
           submodules: true
-      - name: build tester
+      - name: Build tester
         run: |
           cd testing
           make all
-      - name: install valgrind
-        run: apt install --no-install-recommends valgrind
-      - name: run valgrind
+      - name: Install valgrind
+        run: sudo apt install --no-install-recommends -y valgrind
+      - name: Run valgrind
         run: |
           valgrind --leak-check=full \
                    --show-leak-kinds=all \
