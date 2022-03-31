@@ -22,13 +22,20 @@ bool node_iter(const void* a, void* udata)
     return true;
 }
 
+bool node_free_string_memory(const void* a, void* udata)
+{
+    const struct node* na = a;
+    free(na->physical_path);
+    free(na->virtual_path);
+    return true;
+}
+
 char* resolve_path(char* path)
 {
     char* output;
 
     if ((output = realpath(path, NULL)) == NULL)
     {
-        free(output);
         size_t path_length = strlen(path) + 1;
         output = (char*)malloc(path_length * sizeof(char));
         strncpy(output, path, path_length);
@@ -93,20 +100,19 @@ void load_mappings(void)
             *separator = '\0';  // replace colon with end of string
             *(line + read - 1) = '\0';  // replace newline with end of string
 
-            struct node* new_node = &(struct node) {
+            struct node* temp_node = &(struct node) {
                 .physical_path=resolve_path(line),
                 .virtual_path=resolve_path(separator + 2)
             };
 
             #ifdef FARL_LOG_BUILDING
-            lprintf("map: \"%s\" -> \"%s\"", new_node->virtual_path, new_node->physical_path);
+            lprintf("map: \"%s\" -> \"%s\"", temp_node->virtual_path, temp_node->physical_path);
             #endif
 
-            struct node* old_node = btree_set(mapping_tree, new_node);
-
-            if (old_node)
+            // free the previous mapping node if one is found
+            if ((temp_node = btree_set(mapping_tree, temp_node)) != NULL)
             {
-                free(old_node);
+                free(temp_node);
             }
         }
     }
@@ -127,6 +133,7 @@ void discard_mappings(void)
 
     if (mapping_tree != NULL)
     {
+        btree_descend(mapping_tree, NULL, node_free_string_memory, NULL);
         btree_free(mapping_tree);
         lprintf("mappings discarded");
     }
