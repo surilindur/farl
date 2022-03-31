@@ -27,17 +27,12 @@ jobs:
           cd testing
           make all
       - name: Install valgrind
-        run: sudo apt install --no-install-recommends -y valgrind
+        run: |
+          sudo apt install --no-install-recommends -y valgrind
       - name: Run valgrind
         run: |
           valgrind --leak-check=full \
                    --show-leak-kinds=all \
                    --track-origins=yes \
                    --verbose \
-                   --log-file=$VALGRIND_LOG \
                    testing/test
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: valgrind-log
-          path: ${{ env.VALGRIND_LOG }}
