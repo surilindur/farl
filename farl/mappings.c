@@ -33,14 +33,16 @@ bool node_free_string_memory(const void* a, void* udata)
 char* resolve_path(char* path)
 {
     char* output;
+    char resolved_path[PATH_MAX];
 
-    if ((output = realpath(path, NULL)) == NULL)
+    if (realpath(path, resolved_path) != NULL)
     {
-        free(output);
-        size_t path_length = strlen(path) + 1;
-        output = (char*)malloc(path_length * sizeof(char));
-        strncpy(output, path, path_length);
+        path = resolved_path;
     }
+
+    size_t path_length = strlen(path) + 1;
+    output = (char*)malloc(path_length * sizeof(char));
+    strncpy(output, path, path_length);
 
     #ifdef FARL_LOG_PATHS
     lprintf("path: \"%s\" -> \"%s\"", path, output);
