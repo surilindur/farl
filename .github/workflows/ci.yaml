@@ -8,21 +8,30 @@ on:
     branches:
       - '**'
 
+env:
+  FARL_LOG: ${{ GITHUB_WORKSPACE }}/testing/test.log
+  FARL_YAML: ${{ GITHUB_WORKSPACE }}/testing/test.yaml
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
           submodules: true
-      - name: Build tester
+      - name: build
         run: |
           cd testing
           make all
-      - name: Run tester
-        env:
-          FARL_LOG: testing/test.log
-          FARL_YAML: testing/test.yaml
+      - name: testing
         run: testing/test
+      - name: valgrind
+        run: |
+          valgrind --leak-check=full \
+                   --show-leak-kinds=all \
+                   --track-origins=yes \
+                   --verbose \
+                   --log-file=valgrind-out.txt \
+                   testing/test
