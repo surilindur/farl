@@ -3,7 +3,7 @@
 
 int main(void)
 {
-    printf("TEST: running");
+    printf("TEST: running\n");
 
     printf("TEST: logfile: \"%s\"\n", getenv("FARL_LOG"));
     printf("TEST: mappings: \"%s\"\n", getenv("FARL_MAPPINGS"));
