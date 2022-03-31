@@ -3,6 +3,11 @@
 
 int main(void)
 {
+    printf("TEST: running");
+
+    printf("TEST: logfile: \"%s\"", getenv("FARL_LOG"));
+    printf("TEST: mappings: \"%s\"", getenv("FARL_MAPPINGS"));
+
     printf("TEST: loading mappings...\n");
 
     load_mappings();
