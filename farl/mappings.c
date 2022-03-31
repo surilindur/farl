@@ -66,9 +66,12 @@ void load_mappings(void)
 
     if ((fp = fopen(mappings_path, "r")) == NULL)
     {
+        free(mappings_path);
         lprintf("failed to open mappings file");
         exit(EXIT_FAILURE);
     }
+
+    free(mappings_path);
 
     char* line = NULL;
     size_t len = 0;
