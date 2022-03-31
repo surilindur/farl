@@ -1,0 +1,4 @@
+/some/random/path/a.txt: /some/random/path/a_fake.txt
+/some/random/path/b.txt: /some/random/path/b_fake.txt
+/some/random/path/c.txt: /some/random/path/c_fake.txt
+/some/random/path/d.txt: /some/random/path/d_fake.txt
