@@ -28,6 +28,7 @@ char* resolve_path(char* path)
 
     if ((output = realpath(path, NULL)) == NULL)
     {
+        free(output);
         size_t path_length = strlen(path) + 1;
         output = (char*)malloc(path_length * sizeof(char));
         strncpy(output, path, path_length);

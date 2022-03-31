@@ -9,7 +9,7 @@ The library is written in C and compiles with C99 using Clang 13. There is a mak
 There is a simple stub for testing whether the thing compiles and works, that can be used as follows, within the [testing](./testing) folder:
 
     make all
-    FARL_LOG=./test.log FARL_YAML=./test.yaml ./test
+    FARL_LOG=./test.log FARL_MAPPINGS=./test.yaml ./test
 
 The following compile-time definitions can be toggled on if needed:
 
