@@ -8,6 +8,11 @@ on:
     branches:
       - '**'
 
+env:
+  FARL_LOG: ${{ github.workspace }}/testing/test.log
+  FARL_MAPPINGS: ${{ github.workspace }}/testing/test.yaml
+  VALGRIND_LOG: ${{ github.workspace }}/testing/valgrind.log
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,8 +34,10 @@ jobs:
                    --show-leak-kinds=all \
                    --track-origins=yes \
                    --verbose \
-                   --log-file=valgrind-out.txt \
+                   --log-file=$VALGRIND_LOG \
                    testing/test
-        env:
-          FARL_LOG: ${{ github.workspace }}/testing/test.log
-          FARL_MAPPINGS: ${{ github.workspace }}/testing/test.yaml
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: valgrind-log
+          path: ${{ env.VALGRIND_LOG }}
