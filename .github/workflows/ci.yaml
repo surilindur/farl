@@ -8,10 +8,6 @@ on:
     branches:
       - '**'
 
-env:
-  FARL_LOG: ${{ env.GITHUB_WORKSPACE }}/testing/test.log
-  FARL_YAML: ${{ env.GITHUB_WORKSPACE }}/testing/test.yaml
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,8 +21,6 @@ jobs:
         run: |
           cd testing
           make all
-      - name: testing
-        run: testing/test
       - name: valgrind
         run: |
           valgrind --leak-check=full \
@@ -35,3 +29,6 @@ jobs:
                    --verbose \
                    --log-file=valgrind-out.txt \
                    testing/test
+        env:
+          FARL_LOG: ${{ env.GITHUB_WORKSPACE }}/testing/test.log
+          FARL_YAML: ${{ env.GITHUB_WORKSPACE }}/testing/test.yaml
