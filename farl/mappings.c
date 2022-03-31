@@ -36,6 +36,7 @@ char* resolve_path(char* path)
 
     if ((output = realpath(path, NULL)) == NULL)
     {
+        free(output);
         size_t path_length = strlen(path) + 1;
         output = (char*)malloc(path_length * sizeof(char));
         strncpy(output, path, path_length);
@@ -112,6 +113,8 @@ void load_mappings(void)
             // free the previous mapping node if one is found
             if ((temp_node = btree_set(mapping_tree, temp_node)) != NULL)
             {
+                free(temp_node->physical_path);
+                free(temp_node->virtual_path);
                 free(temp_node);
             }
         }
