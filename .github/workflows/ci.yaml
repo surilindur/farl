@@ -22,6 +22,7 @@ jobs:
           cd testing
           make all
       - name: Run tester
-        run: |
-          cd testing
-          FARL_LOG=./test.log FARL_YAML=./test.yaml ./test
+        env:
+          FARL_LOG: testing/test.log
+          FARL_YAML: testing/test.yaml
+        run: testing/test
