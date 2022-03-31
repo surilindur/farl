@@ -32,5 +32,5 @@ jobs:
                    --log-file=valgrind-out.txt \
                    testing/test
         env:
-          FARL_LOG: ${{ env.GITHUB_WORKSPACE }}/testing/test.log
-          FARL_YAML: ${{ env.GITHUB_WORKSPACE }}/testing/test.yaml
+          FARL_LOG: $GITHUB_WORKSPACE/testing/test.log
+          FARL_YAML: $GITHUB_WORKSPACE/testing/test.yaml
